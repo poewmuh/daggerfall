@@ -30,6 +30,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8a265ac4472df04eb06b8e97a728d0f
+    m_Address: WeaponOverlay
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f57077ae593f9e04082baa9f130833ff
     m_Address: MainMenuWindow
     m_ReadOnly: 0

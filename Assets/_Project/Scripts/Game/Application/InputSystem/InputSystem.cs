@@ -14,9 +14,11 @@ namespace Game.Application.InputSystem
         private InputSystemActions _inputActions;
         private UIInputActions _uiInputActions;
         private PlayerInputActions _playerInputActions;
+        private readonly InputEvents _inputEvents = new();
 
         InputSystemActions IInputSystem.InputSystemActions => _inputActions;
         PlayerInput IInputSystem.PlayerInput => _playerInput;
+        InputEvents IInputSystem.InputEvents => _inputEvents;
 
         public ReactiveProperty<ControlSchemeType> ControlScheme { get; } = new();
 

@@ -3,6 +3,7 @@
     public enum OverlayType
     {
         FadeOverlay,
-        BlinkOverlay
+        BlinkOverlay,
+        WeaponOverlay
     }
 }

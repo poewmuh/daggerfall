@@ -8,6 +8,7 @@ namespace Game.Application.InputSystem
         PlayerInput PlayerInput { get; }
         InputSystemActions InputSystemActions { get; }
         ReactiveProperty<ControlSchemeType> ControlScheme { get; }
+        InputEvents InputEvents { get; }
         void SwitchMode(InputSwitchMode mode);
     }
 }

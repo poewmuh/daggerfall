@@ -1,6 +1,7 @@
 ﻿using Game.Application.EntryPoints;
 using VContainer;
 using VContainer.Unity;
+using Game.Gameplay.Input;
 
 namespace Game.Application.LifetimeScopes
 {
