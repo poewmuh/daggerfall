@@ -42,9 +42,15 @@ namespace Game.Application.GUI.WindowSystem
         {
             if (hidden)
             {
-                InternalClose(true);
+                if (State is WindowState.Open or WindowState.Opening)
+                {
+                    InternalClose(true);
+                }
+
+                return;
             }
-            else
+
+            if (State is WindowState.Hidden or WindowState.Hiding)
             {
                 InternalShow();
             }
