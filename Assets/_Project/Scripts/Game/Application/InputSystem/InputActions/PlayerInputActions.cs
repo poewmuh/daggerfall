@@ -20,7 +20,7 @@ namespace Game.Application.InputSystem.InputActions
 
         void InputSystemActions.IPlayerActions.OnAttack(InputAction.CallbackContext context)
         {
-	        TriggerAction(context, InputSystem.InputEvents.OnAttack);
+	        TriggerAction(context, InputSystem.InputEvents.OnAttack, false);
         }
 
         void InputSystemActions.IPlayerActions.OnInteract(InputAction.CallbackContext context)

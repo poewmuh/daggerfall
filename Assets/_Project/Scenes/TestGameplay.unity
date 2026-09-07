@@ -1310,6 +1310,8 @@ GameObject:
   - component: {fileID: 2056875125}
   - component: {fileID: 2056875126}
   - component: {fileID: 2056875127}
+  - component: {fileID: 2056875130}
+  - component: {fileID: 2056875129}
   m_Layer: 6
   m_Name: PlayerAvatar
   m_TagString: Player
@@ -1412,6 +1414,32 @@ MonoBehaviour:
   _moveSpeed: 4
   _gravity: -25
   _groundedVelocity: 2
+--- !u!114 &2056875129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056875120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d6aadfa5c7f451daf25744139f68ef0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Combat.AttackComponent
+  _weaponConfig: {fileID: 11400000, guid: 45a28d89528b4a6dab25c150327a56b7, type: 2}
+--- !u!114 &2056875130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2056875120}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c30b22d395ef472afe6774509a2b3075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Movement.DashComponent
+  _config: {fileID: 11400000, guid: d41c33e4a600483baf788561ab3c4186, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

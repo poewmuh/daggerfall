@@ -12,6 +12,11 @@ namespace Game.Gameplay.Movement
 
 		private CharacterController _characterController;
 		private float _verticalVelocity;
+		private Vector3 _dashDirection;
+		private float _dashSpeed;
+		private float _dashTimeRemaining;
+
+		bool ICharacterMotor.IsDashing => _dashTimeRemaining > 0f;
 
 		private void Awake()
 		{
@@ -25,14 +30,41 @@ namespace Game.Gameplay.Movement
 
 			_verticalVelocity += _gravity * deltaTime;
 
+			if (_dashTimeRemaining > 0f)
+			{
+				var dashDeltaTime = Mathf.Min(deltaTime, _dashTimeRemaining);
+				var dashDisplacement = _dashDirection * (_dashSpeed * dashDeltaTime);
+				var verticalDisplacement = Vector3.up * (_verticalVelocity * deltaTime);
+				_characterController.Move(dashDisplacement + verticalDisplacement);
+				_dashTimeRemaining -= dashDeltaTime;
+				return;
+			}
+
+			var planarVelocity = GetPlanarDirection(direction) * _moveSpeed;
+			var velocity = planarVelocity + Vector3.up * _verticalVelocity;
+			_characterController.Move(velocity * deltaTime);
+		}
+
+		void ICharacterMotor.StartDash(Vector2 direction, float distance, float duration)
+		{
+			if (distance <= 0f || duration <= 0f)
+				return;
+
+			_dashDirection = GetPlanarDirection(direction).normalized;
+			if (_dashDirection.sqrMagnitude <= Mathf.Epsilon)
+				return;
+
+			_dashSpeed = distance / duration;
+			_dashTimeRemaining = duration;
+		}
+
+		private Vector3 GetPlanarDirection(Vector2 direction)
+		{
 			direction = Vector2.ClampMagnitude(direction, 1f);
 			var reference = _movementReference == null ? transform : _movementReference;
 			var right = Vector3.ProjectOnPlane(reference.right, Vector3.up).normalized;
 			var forward = Vector3.Cross(right, Vector3.up).normalized;
-			var planarVelocity = right * direction.x + forward * direction.y;
-			var velocity = planarVelocity * _moveSpeed + Vector3.up * _verticalVelocity;
-
-			_characterController.Move(velocity * deltaTime);
+			return right * direction.x + forward * direction.y;
 		}
 	}
 }
