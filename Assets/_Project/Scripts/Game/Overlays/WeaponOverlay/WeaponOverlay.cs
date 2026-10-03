@@ -1,12 +1,12 @@
-﻿namespace Game.Overlays.WeaponOverlay
-{
-	using Game.Gameplay.Combat;
-	using MessagePipe;
-	using R3;
-	using UnityEngine;
-	using UnityEngine.UI;
-	using VContainer;
+using Game.Gameplay.Combat;
+using MessagePipe;
+using R3;
+using UnityEngine;
+using UnityEngine.UI;
+using VContainer;
 
+namespace Game.Overlays.WeaponOverlay
+{
 	public class WeaponOverlay : BaseOverlay
 	{
 		[SerializeField] private RectTransform _weaponTransform;
@@ -15,7 +15,7 @@
 		[Inject] private ISubscriber<WeaponPresentationMessage> _presentationSubscriber;
 
 		private Vector2 _idlePosition;
-		private WeaponConfig _config;
+		private WeaponPresentation _presentation;
 
 		private void Awake()
 		{
@@ -25,10 +25,10 @@
 
 		private void ApplyState(WeaponPresentationMessage message)
 		{
-			if (_config != message.Config)
+			if (_presentation != message.Presentation)
 			{
-				_config = message.Config;
-				_weaponImage.sprite = _config.WeaponSprite;
+				_presentation = message.Presentation;
+				_weaponImage.sprite = _presentation.Sprite;
 			}
 
 			switch (message.Phase)
@@ -38,16 +38,16 @@
 					break;
 				case WeaponActionPhase.Charging:
 					SetPose(
-						Vector2.Lerp(_idlePosition, _idlePosition + _config.ChargeOffset, message.PhaseProgress),
-						Mathf.Lerp(0f, _config.ChargeRotation, message.PhaseProgress));
+						Vector2.Lerp(_idlePosition, _idlePosition + _presentation.ChargeOffset, message.PhaseProgress),
+						Mathf.Lerp(0f, _presentation.ChargeRotation, message.PhaseProgress));
 					break;
 				case WeaponActionPhase.Swing:
 					ApplySwing(message.PhaseProgress);
 					break;
 				case WeaponActionPhase.Recovery:
 					SetPose(
-						Vector2.Lerp(_idlePosition + _config.SwingOffset, _idlePosition, message.PhaseProgress),
-						Mathf.Lerp(_config.SwingRotation, 0f, message.PhaseProgress));
+						Vector2.Lerp(_idlePosition + _presentation.SwingOffset, _idlePosition, message.PhaseProgress),
+						Mathf.Lerp(_presentation.SwingRotation, 0f, message.PhaseProgress));
 					break;
 			}
 		}
@@ -55,8 +55,8 @@
 		private void ApplySwing(float progress)
 		{
 			var easedProgress = Mathf.SmoothStep(0f, 1f, progress);
-			var position = Vector2.Lerp(_idlePosition + _config.ChargeOffset, _idlePosition + _config.SwingOffset, easedProgress);
-			var rotation = Mathf.Lerp(_config.ChargeRotation, _config.SwingRotation, easedProgress);
+			var position = Vector2.Lerp(_idlePosition + _presentation.ChargeOffset, _idlePosition + _presentation.SwingOffset, easedProgress);
+			var rotation = Mathf.Lerp(_presentation.ChargeRotation, _presentation.SwingRotation, easedProgress);
 			SetPose(position, rotation);
 		}
 

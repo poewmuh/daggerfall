@@ -55,7 +55,7 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -65,6 +65,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 96f625c33f6db784d9fbc27de5065da5, type: 2}
   - {fileID: 11400000, guid: b0a3b06041a14c641a3171bd8979d3af, type: 2}
   - {fileID: 11400000, guid: d6373d1df28cdac4697ed6835e816ed2, type: 2}
+  - {fileID: 11400000, guid: dde2b4cf3cad6094e834d8a34e16c1c3, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles

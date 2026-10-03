@@ -2,14 +2,14 @@ namespace Game.Gameplay.Combat
 {
 	public readonly struct WeaponPresentationMessage
 	{
-		public WeaponConfig Config { get; }
+		public WeaponPresentation Presentation { get; }
 		public WeaponActionPhase Phase { get; }
 		public float PhaseProgress { get; }
 		public float Charge { get; }
 
-		public WeaponPresentationMessage(WeaponConfig config, WeaponActionPhase phase, float phaseProgress, float charge)
+		public WeaponPresentationMessage(WeaponPresentation presentation, WeaponActionPhase phase, float phaseProgress, float charge)
 		{
-			Config = config;
+			Presentation = presentation;
 			Phase = phase;
 			PhaseProgress = phaseProgress;
 			Charge = charge;

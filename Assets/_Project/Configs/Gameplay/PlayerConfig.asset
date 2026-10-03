@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89e8db902754b778df031db28a63598, type: 3}
+  m_Name: PlayerConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Agent.AgentConfig
+  _traits:
+  - rid: 1000
+  - rid: 1001
+  - rid: 1002
+  - rid: 1003
+  - rid: 1004
+  references:
+    version: 2
+    RefIds:
+    - rid: 1000
+      type: {class: ViewTrait, ns: Game.Gameplay.View, asm: Assembly-CSharp}
+      data:
+        _assetId: Player
+    - rid: 1001
+      type: {class: PlayerControlTrait, ns: Game.Gameplay.Input, asm: Assembly-CSharp}
+      data: 
+    - rid: 1002
+      type: {class: MovementTrait, ns: Game.Gameplay.Movement, asm: Assembly-CSharp}
+      data:
+        _moveSpeed: 5
+    - rid: 1003
+      type: {class: DashTrait, ns: Game.Gameplay.Dash, asm: Assembly-CSharp}
+      data:
+        _distance: 4
+        _duration: 0.2
+        _cooldown: 1
+        _fallbackDirection: 0
+    - rid: 1004
+      type: {class: WeaponHolderTrait, ns: Game.Gameplay.Combat.Traits, asm: Assembly-CSharp}
+      data:
+        _startingWeapon: {fileID: 11400000, guid: 45a28d89528b4a6dab25c150327a56b7, type: 2}
