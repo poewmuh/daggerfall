@@ -12,6 +12,7 @@ namespace Game.Gameplay.Movement
 
 			group.AddSystem(new CameraRelativeInputToMoveDirectionSystem(camera));
 			group.AddSystem(new CameraFacingSystem(camera));
+			group.AddSystem(new FaceMoveDirectionSystem());
 			group.AddSystem(new MovementAvailabilitySystem());
 			group.AddSystem(new MoveDirectionToVelocitySystem());
 			

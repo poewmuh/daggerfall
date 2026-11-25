@@ -5,6 +5,9 @@ namespace Game.Gameplay
 		public const int Spawn = 0;
 		public const int View = 100;
 		public const int Input = 200;
+		public const int Perception = 210;
+		public const int Ai = 220;
+		public const int Navigation = 230;
 		public const int VelocityReset = 300;
 		public const int Dash = 400;
 		public const int Movement = 500;

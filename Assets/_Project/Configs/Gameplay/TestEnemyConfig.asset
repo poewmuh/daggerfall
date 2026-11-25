@@ -1,0 +1,114 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c89e8db902754b778df031db28a63598, type: 3}
+  m_Name: TestEnemyConfig
+  m_EditorClassIdentifier: Assembly-CSharp::Game.Gameplay.Agent.AgentConfig
+  _traits:
+  - rid: 3000
+  - rid: 8612112201576349961
+  - rid: 8612112201576349964
+  - rid: 8612112201576349965
+  - rid: 8612112201576349966
+  - rid: 8612112201576349967
+  - rid: 8612112201576349969
+  - rid: 8612112201576349972
+  references:
+    version: 2
+    RefIds:
+    - rid: 3000
+      type: {class: HealthTrait, ns: Game.Gameplay.Damage, asm: Assembly-CSharp}
+      data:
+        _maxHealth: 30
+    - rid: 6860113799282688001
+      type: {class: ConstantConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
+      data:
+        _value: 0.2
+    - rid: 8612112201576349961
+      type: {class: MovementTrait, ns: Game.Gameplay.Movement, asm: Assembly-CSharp}
+      data:
+        _moveSpeed: 3.5
+    - rid: 8612112201576349964
+      type: {class: PerceptionTrait, ns: Game.Gameplay.Perception, asm: Assembly-CSharp}
+      data:
+        _range: 12
+        _proximityRadius: 1.5
+        _fieldOfView: 120
+        _eyeHeight: 0.6
+        _targetHeight: 1
+        _memoryDuration: 5
+        _interval: 0.2
+        _obstacleMask:
+          serializedVersion: 2
+          m_Bits: 4294967227
+    - rid: 8612112201576349965
+      type: {class: NavAgentTrait, ns: Game.Gameplay.Navigation, asm: Assembly-CSharp}
+      data:
+        _repathInterval: 0.25
+        _cornerReachDistance: 0.25
+        _sampleDistance: 2
+    - rid: 8612112201576349966
+      type: {class: AiBrainTrait, ns: Game.Gameplay.AI.Traits, asm: Assembly-CSharp}
+      data:
+        _inertia: 0.1
+    - rid: 8612112201576349967
+      type: {class: WanderTrait, ns: Game.Gameplay.AI.Actions.Wander, asm: Assembly-CSharp}
+      data:
+        _weight: 1
+        _considerations:
+        - rid: 6860113799282688001
+        _radius: 5
+        _waitMin: 1
+        _waitMax: 3
+        _maxTravelTime: 8
+        _stoppingDistance: 0.3
+    - rid: 8612112201576349969
+      type: {class: ChaseTrait, ns: Game.Gameplay.AI.Actions.Chase, asm: Assembly-CSharp}
+      data:
+        _weight: 1
+        _considerations:
+        - rid: 8612112201576349970
+        - rid: 8612112201576349971
+        _stoppingDistance: 1.2
+        _lastKnownStoppingDistance: 0.5
+    - rid: 8612112201576349970
+      type: {class: HasTargetConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
+      data: 
+    - rid: 8612112201576349971
+      type: {class: TimeSinceSeenConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
+      data:
+        _curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: -1
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: -1
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+    - rid: 8612112201576349972
+      type: {class: DestroyOnDeathTrait, ns: Game.Gameplay.Damage, asm: Assembly-CSharp}
+      data: 

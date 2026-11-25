@@ -13,6 +13,7 @@ namespace Game.Gameplay.Combat
 			var group = world.CreateSystemsGroup();
 
 			group.AddSystem(new CameraAimSystem(camera));
+			group.AddSystem(new AttackInterruptSystem());
 			group.AddSystem(new AttackRecoverySystem());
 			group.AddSystem(new AttackSwingSystem());
 			group.AddSystem(new MeleeHitSystem());
@@ -21,6 +22,7 @@ namespace Game.Gameplay.Combat
 			group.AddSystem(new WeaponPresentationSystem(presentationPublisher));
 			group.AddSystem(new ComponentCleanupSystem<AttackHit>());
 			group.AddSystem(new ComponentCleanupSystem<AttackRequest>());
+			group.AddSystem(new WeaponOwnerDestroySystem());
 
 			return group;
 		}

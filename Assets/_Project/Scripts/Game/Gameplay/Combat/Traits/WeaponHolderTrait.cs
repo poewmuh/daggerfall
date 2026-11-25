@@ -1,4 +1,5 @@
 using System;
+using Game.Gameplay.Actions;
 using Game.Gameplay.Agent;
 using Game.Gameplay.Common;
 using Scellecs.Morpeh;
@@ -17,6 +18,7 @@ namespace Game.Gameplay.Combat.Traits
 		{
 			world.GetStash<AttackIntent>().Set(entity);
 			world.GetStash<AimRay>().Set(entity);
+			world.GetStash<ActionBlockers>().EnsureComponent(entity);
 
 			var weapon = world.CreateEntity();
 			_startingWeapon.Install(weapon, world);

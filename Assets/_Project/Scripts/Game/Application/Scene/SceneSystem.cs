@@ -30,7 +30,11 @@ namespace Game.Application.Scene
         
         async UniTask ISceneSystem.LoadGameplay(int level)
         {
-            _gameSaveMediator.GetLevelSaveData().SetLevelIndex(level);
+            var hasSave = _gameSaveMediator.GameSaveData != null;
+
+            if (hasSave)
+                _gameSaveMediator.GetLevelSaveData().SetLevelIndex(level);
+
             var data = _scenesConfig.GetGameplayScene(level);
             UnloadAllScenes();
 
@@ -54,9 +58,20 @@ namespace Game.Application.Scene
                 await UniTask.WhenAll(tasks);
             }
 
-            _gameSaveMediator.Save();
+            if (hasSave)
+                _gameSaveMediator.Save();
+
             await UniTask.DelayFrame(1);
             isLoaded.Value = true;
+        }
+        
+        UniTask ISceneSystem.ReloadGameplay()
+        {
+            var level = _gameSaveMediator.GameSaveData != null
+                ? _gameSaveMediator.GetLevelSaveData().LevelIndex
+                : 0;
+
+            return ((ISceneSystem)this).LoadGameplay(level);
         }
         
         async UniTask ISceneSystem.LoadScene(AssetReference scene, LoadSceneMode sceneMode)

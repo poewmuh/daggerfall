@@ -1,4 +1,5 @@
 using System;
+using Game.Gameplay.Actions;
 using Scellecs.Morpeh;
 
 namespace Game.Gameplay.Combat.Systems
@@ -8,6 +9,7 @@ namespace Game.Gameplay.Combat.Systems
 		private Filter _filter;
 
 		private Stash<EquippedWeapon> _equippedStash;
+		private Stash<ActionBlockers> _actionBlockersStash;
 		private Stash<AttackTiming> _timingStash;
 		private Stash<ChargeAttack> _chargeStash;
 		private Stash<AttackCharging> _chargingStash;
@@ -21,9 +23,11 @@ namespace Game.Gameplay.Combat.Systems
 			_filter = World.Filter
 				.With<AttackRequest>()
 				.With<EquippedWeapon>()
+				.With<ActionBlockers>()
 				.Build();
 
 			_equippedStash = World.GetStash<EquippedWeapon>();
+			_actionBlockersStash = World.GetStash<ActionBlockers>();
 			_timingStash = World.GetStash<AttackTiming>();
 			_chargeStash = World.GetStash<ChargeAttack>();
 			_chargingStash = World.GetStash<AttackCharging>();
@@ -35,6 +39,9 @@ namespace Game.Gameplay.Combat.Systems
 		{
 			foreach (var owner in _filter)
 			{
+				if (_actionBlockersStash.Get(owner).Value != ActionBlockReason.None)
+					continue;
+
 				var weapon = _equippedStash.Get(owner).Value;
 
 				if (!CanStart(weapon))

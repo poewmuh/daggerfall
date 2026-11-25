@@ -8,6 +8,7 @@ namespace Game.Application.Scene
     {
         UniTask LoadMainMenu();
         UniTask LoadGameplay(int level);
+        UniTask ReloadGameplay();
         UniTask LoadScene(AssetReference scene, LoadSceneMode sceneMode);
         void UnloadScene(string key);
     }

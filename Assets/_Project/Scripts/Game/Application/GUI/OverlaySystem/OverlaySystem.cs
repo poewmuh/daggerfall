@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Game.Application.Asset;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace Game.Application.GUI.OverlaySystem
         [Inject] private IObjectResolver _objectResolver;
 
         private Transform _overlaysParent;
-        private readonly List<string> _createdAssetsKey = new();
+        private readonly Dictionary<string, GameObject> _createdOverlays = new();
 
         void IInitializable.Initialize()
         {
@@ -29,17 +29,21 @@ namespace Game.Application.GUI.OverlaySystem
 
         private void CreateOverlay(string overlayKey)
         {
-            var instance = _assetLoader.LoadImmediate<GameObject>(overlayKey);
-            _objectResolver.Instantiate(instance, _overlaysParent);
-            _createdAssetsKey.Add(overlayKey);
+            if (_createdOverlays.TryGetValue(overlayKey, out var existing) && existing)
+                return;
+
+            var prefab = _assetLoader.LoadImmediate<GameObject>(overlayKey);
+            _createdOverlays[overlayKey] = _objectResolver.Instantiate(prefab, _overlaysParent);
         }
 
         void IDisposable.Dispose()
         {
-            foreach (var assetKey in _createdAssetsKey)
+            foreach (var assetKey in _createdOverlays.Keys)
             {
                 _assetLoader.Release(assetKey);
             }
+
+            _createdOverlays.Clear();
         }
     }
 }

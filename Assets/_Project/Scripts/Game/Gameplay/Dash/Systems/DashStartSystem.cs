@@ -1,4 +1,6 @@
 using System;
+using Game.Gameplay.Actions;
+using Game.Gameplay.Damage;
 using Game.Gameplay.Movement;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -15,6 +17,8 @@ namespace Game.Gameplay.Dash.Systems
 		private Stash<MoveDirection> _moveDirectionStash;
 		private Stash<FacingDirection> _facingStash;
 		private Stash<MovementBlockers> _blockersStash;
+		private Stash<ActionBlockers> _actionBlockersStash;
+		private Stash<DamageImmunity> _immunityStash;
 		private Stash<Dashing> _dashingStash;
 
 		public World World { get; set; }
@@ -27,6 +31,7 @@ namespace Game.Gameplay.Dash.Systems
 				.With<MoveDirection>()
 				.With<FacingDirection>()
 				.With<MovementBlockers>()
+				.With<ActionBlockers>()
 				.Without<Dashing>()
 				.Without<DashCooldown>()
 				.Build();
@@ -35,6 +40,8 @@ namespace Game.Gameplay.Dash.Systems
 			_moveDirectionStash = World.GetStash<MoveDirection>();
 			_facingStash = World.GetStash<FacingDirection>();
 			_blockersStash = World.GetStash<MovementBlockers>();
+			_actionBlockersStash = World.GetStash<ActionBlockers>();
+			_immunityStash = World.GetStash<DamageImmunity>();
 			_dashingStash = World.GetStash<Dashing>();
 		}
 
@@ -42,6 +49,9 @@ namespace Game.Gameplay.Dash.Systems
 		{
 			foreach (var entity in _filter)
 			{
+				if (_actionBlockersStash.Get(entity).Value != ActionBlockReason.None)
+					continue;
+
 				ref var parameters = ref _parametersStash.Get(entity);
 
 				var direction = ResolveDirection(
@@ -56,6 +66,9 @@ namespace Game.Gameplay.Dash.Systems
 				});
 
 				_blockersStash.Get(entity).Value |= MovementBlockReason.Dash;
+
+				if (parameters.Invulnerable && _immunityStash.Has(entity))
+					_immunityStash.Get(entity).Value |= DamageImmunityReason.Dash;
 			}
 		}
 

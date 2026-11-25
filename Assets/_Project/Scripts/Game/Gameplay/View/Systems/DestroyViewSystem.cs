@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Game.Gameplay.Destroy;
 using Scellecs.Morpeh;
 
@@ -42,7 +42,7 @@ namespace Game.Gameplay.View.Systems
 			if (!view.Value) return;
 			
 			view.Value.Unbind();
-			UnityEngine.Object.Destroy(view.Value);
+			UnityEngine.Object.Destroy(view.Value.gameObject);
 		}
 
 		void IDisposable.Dispose()

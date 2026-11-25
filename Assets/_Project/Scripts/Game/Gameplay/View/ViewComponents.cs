@@ -1,4 +1,5 @@
-﻿using Scellecs.Morpeh;
+using Scellecs.Morpeh;
+using UnityEngine;
 
 namespace Game.Gameplay.View
 {
@@ -10,5 +11,10 @@ namespace Game.Gameplay.View
 	public struct AssetPath : IComponent
 	{
 		public string Value;
+	}
+
+	public struct Billboard : IComponent
+	{
+		public Transform Value;
 	}
 }

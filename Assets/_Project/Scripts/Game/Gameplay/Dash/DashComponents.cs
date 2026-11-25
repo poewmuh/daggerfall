@@ -15,6 +15,7 @@ namespace Game.Gameplay.Dash
 		public float Duration;
 		public float Cooldown;
 		public DashFallbackDirection FallbackDirection;
+		public bool Invulnerable;
 	}
 
 	public struct DashRequest : IComponent { }
