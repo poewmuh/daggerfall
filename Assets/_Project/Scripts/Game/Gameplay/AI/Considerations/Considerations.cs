@@ -65,4 +65,18 @@ namespace Game.Gameplay.AI
 
 		public float Evaluate(in AiContext context) => _curve.Evaluate(Mathf.Clamp01(context.HealthRatio));
 	}
+
+	[Serializable]
+	public sealed class DistanceInMetersConsideration : IConsideration
+	{
+		[SerializeField] private AnimationCurve _curve = new(
+			new Keyframe(0f, 1f, 0f, 0f),
+			new Keyframe(1.5f, 1f, 0f, 0f),
+			new Keyframe(1.8f, 0f, 0f, 0f));
+
+		public float Evaluate(in AiContext context)
+		{
+			return context.HasTarget ? _curve.Evaluate(context.DistanceToTarget) : 0f;
+		}
+	}
 }

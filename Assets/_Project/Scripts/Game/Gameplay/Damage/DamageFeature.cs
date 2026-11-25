@@ -1,5 +1,6 @@
 using Game.Gameplay.Common.Systems;
 using Game.Gameplay.Damage.Systems;
+using Game.Gameplay.Factions.Systems;
 using MessagePipe;
 using Scellecs.Morpeh;
 
@@ -12,6 +13,7 @@ namespace Game.Gameplay.Damage
 			var group = world.CreateSystemsGroup();
 
 			group.AddSystem(new DamageImmunitySystem());
+			group.AddSystem(new FactionDamageFilterSystem());
 			group.AddSystem(new DamageApplySystem());
 			group.AddSystem(new DeathSystem());
 			group.AddSystem(new DestroyOnDeathSystem());

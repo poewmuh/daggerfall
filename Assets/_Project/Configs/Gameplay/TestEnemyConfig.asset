@@ -21,6 +21,9 @@ MonoBehaviour:
   - rid: 8612112201576349967
   - rid: 8612112201576349969
   - rid: 8612112201576349972
+  - rid: 6860114204804513890
+  - rid: 6860114204804513891
+  - rid: 6860114204804513892
   references:
     version: 2
     RefIds:
@@ -32,6 +35,63 @@ MonoBehaviour:
       type: {class: ConstantConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
       data:
         _value: 0.2
+    - rid: 6860114204804513890
+      type: {class: FactionTrait, ns: Game.Gameplay.Factions, asm: Assembly-CSharp}
+      data:
+        _faction: {fileID: 11400000, guid: 93a1b7eb1f05a2d44bcaf72047af0586, type: 2}
+    - rid: 6860114204804513891
+      type: {class: WeaponHolderTrait, ns: Game.Gameplay.Combat.Traits, asm: Assembly-CSharp}
+      data:
+        _startingWeapon: {fileID: 11400000, guid: f6922a3db2d56674ab2c682ab8b44ff7, type: 2}
+    - rid: 6860114204804513892
+      type: {class: AttackTrait, ns: Game.Gameplay.AI.Actions.Attack, asm: Assembly-CSharp}
+      data:
+        _weight: 1.2
+        _considerations:
+        - rid: 6860114204804513893
+        - rid: 6860114204804513894
+        _minInterval: 0.2
+        _maxInterval: 0.6
+        _firstAttackDelay: 0.25
+    - rid: 6860114204804513893
+      type: {class: TargetVisibleConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
+      data: 
+    - rid: 6860114204804513894
+      type: {class: DistanceInMetersConsideration, ns: Game.Gameplay.AI, asm: Assembly-CSharp}
+      data:
+        _curve:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1.5
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1.8
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
     - rid: 8612112201576349961
       type: {class: MovementTrait, ns: Game.Gameplay.Movement, asm: Assembly-CSharp}
       data:

@@ -13,8 +13,11 @@ namespace Game.Gameplay.AI.Traits
 
 		protected AiActionTrait()
 		{
+			_weight = DefaultWeight;
 			_considerations = CreateDefaultConsiderations();
 		}
+
+		protected virtual float DefaultWeight => 1f;
 
 		public void Install(Entity owner, World world)
 		{

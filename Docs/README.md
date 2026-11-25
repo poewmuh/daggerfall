@@ -2,6 +2,6 @@
 
 - `../AGENTS.md` — правила кода и рабочий процесс (начни с него).
 - `Architecture.md` — слои, DI, поток запуска, мир ECS, порядок групп, модель сущностей, конфиги.
-- `Features/` — документы фич: `Movement.md` (ввод, движение, камера), `Dash.md`, `Combat.md`, `Damage.md`, `AI.md` (восприятие, навигация, Utility AI), `View.md`.
+- `Features/` — документы фич: `Movement.md` (ввод, движение, камера), `Dash.md`, `Combat.md`, `Damage.md`, `Factions.md`, `AI.md` (восприятие, навигация, Utility AI), `View.md`.
 - `Decisions.md` — журнал архитектурных решений с причинами.
 - `Roadmap.md` — сделанное, план, известные проблемы.

@@ -19,6 +19,7 @@
 | Тип | Система | Что делает |
 |---|---|---|
 | Update | `DamageImmunitySystem` | Удаляет события урона по целям с ненулевым `DamageImmunity` |
+| Update | `FactionDamageFilterSystem` | Удаляет события урона, если у источника и цели есть фракции и нет враждебности (`Factions.md`) |
 | Update | `DamageApplySystem` | `Health.Current -= Amount` (не ниже 0). Мёртвых и сущности без `Health` пропускает |
 | Update | `DeathSystem` | `Current <= 0` → `Dead` + `Died`, флаги `MovementBlockReason.Dead` и `ActionBlockReason.Dead` |
 | Update | `DestroyOnDeathSystem` | `Died` + `DestroyOnDeath` → `DestroySelfRequest` |
@@ -30,6 +31,6 @@
 
 ## Точки расширения
 
-- Модификаторы урона (броня, резисты, крит) — системы между `DamageImmunity` и `DamageApply`, которые меняют `Amount` или удаляют событие.
+- Модификаторы урона (броня, резисты, крит) — системы между `FactionDamageFilter` и `DamageApply`, которые меняют `Amount` или удаляют событие.
 - Реакции на смерть — новые трейты по образцу `DestroyOnDeath`. План: `SpawnOnDeathTrait` для лутаемого объекта.
 - Обратная связь при попадании (вспышка спрайта, полоска HP, отбрасывание) — реакции на `DamageEvent` до его очистки.

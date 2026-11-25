@@ -46,7 +46,7 @@ MonoBehaviour:
         _radius: 0.3
         _hitMask:
           serializedVersion: 2
-          m_Bits: 4294967231
+          m_Bits: 4294967291
     - rid: 2004
       type: {class: WeaponPresentationTrait, ns: Game.Gameplay.Combat.Traits, asm: Assembly-CSharp}
       data:

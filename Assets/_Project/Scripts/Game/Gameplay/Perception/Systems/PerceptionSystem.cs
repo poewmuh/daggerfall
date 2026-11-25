@@ -1,7 +1,7 @@
 using System;
 using Game.Gameplay.Common;
 using Game.Gameplay.Damage;
-using Game.Gameplay.Input;
+using Game.Gameplay.Factions;
 using Game.Gameplay.Movement;
 using Scellecs.Morpeh;
 using UnityEngine;
@@ -17,6 +17,7 @@ namespace Game.Gameplay.Perception.Systems
 		private Stash<PerceivedTarget> _targetStash;
 		private Stash<Position> _positionStash;
 		private Stash<FacingDirection> _facingStash;
+		private Stash<Faction> _factionStash;
 
 		public World World { get; set; }
 
@@ -27,11 +28,12 @@ namespace Game.Gameplay.Perception.Systems
 				.With<PerceivedTarget>()
 				.With<Position>()
 				.With<FacingDirection>()
+				.With<Faction>()
 				.Without<Dead>()
 				.Build();
 
 			_candidates = World.Filter
-				.With<PlayerControlled>()
+				.With<Faction>()
 				.With<Position>()
 				.Without<Dead>()
 				.Build();
@@ -40,6 +42,7 @@ namespace Game.Gameplay.Perception.Systems
 			_targetStash = World.GetStash<PerceivedTarget>();
 			_positionStash = World.GetStash<Position>();
 			_facingStash = World.GetStash<FacingDirection>();
+			_factionStash = World.GetStash<Faction>();
 		}
 
 		void ISystem.OnUpdate(float deltaTime)
@@ -95,7 +98,7 @@ namespace Game.Gameplay.Perception.Systems
 
 			foreach (var candidate in _candidates)
 			{
-				if (candidate == perceiver)
+				if (candidate == perceiver || !_factionStash.AreHostile(perceiver, candidate))
 					continue;
 
 				var candidatePosition = _positionStash.Get(candidate).Value;

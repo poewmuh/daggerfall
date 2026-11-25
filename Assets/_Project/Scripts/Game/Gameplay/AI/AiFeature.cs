@@ -1,3 +1,4 @@
+using Game.Gameplay.AI.Actions.Attack;
 using Game.Gameplay.AI.Actions.Chase;
 using Game.Gameplay.AI.Actions.Wander;
 using Game.Gameplay.AI.Systems;
@@ -15,8 +16,10 @@ namespace Game.Gameplay.AI
 			group.AddSystem(new AiContextSystem());
 			group.AddSystem(new AiScoringSystem());
 			group.AddSystem(new AiSelectionSystem());
+			group.AddSystem(new AiAimSystem());
 			group.AddSystem(new WanderExecutorSystem());
 			group.AddSystem(new ChaseExecutorSystem());
+			group.AddSystem(new AttackExecutorSystem());
 			group.AddSystem(new ComponentCleanupSystem<AiActivated>());
 			group.AddSystem(new AiActionOwnerDestroySystem());
 

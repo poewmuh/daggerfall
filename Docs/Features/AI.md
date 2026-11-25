@@ -1,6 +1,6 @@
 # ИИ: восприятие, навигация, Utility AI
 
-ИИ — это ещё один источник намерений, как ввод игрока. Решение выставляет `NavDestination` (позже `AttackRequest`, `AimRay`), а исполнение идёт через общие системы.
+ИИ — это ещё один источник намерений, как ввод игрока. Решение выставляет `NavDestination`, `AttackRequest` и `AimRay`, а исполнение идёт через общие системы: навигацию, движение, бой.
 
 ## Восприятие (`Gameplay/Perception`, группа 210, Update)
 
@@ -16,7 +16,7 @@
 `PerceptionSystem`:
 - каждый кадр обновляет память: пока цель не видна, растёт `TimeSinceSeen`; после `MemoryDuration` → `HasTarget = false`;
 - с интервалом ищет ближайшую видимую цель: дальность, затем угол (или ближе радиуса чутья), затем `Physics.Linecast` от глаз до цели;
-- цели пока — сущности с `PlayerControlled` без `Dead`. После фракций — враждебные.
+- воспринимающий должен иметь `Faction`; цели — враждебные ему сущности с `Faction` без `Dead` (см. `Factions.md`).
 
 `PerceivedTarget { Target, LastKnownPosition, TimeSinceSeen, Visible, HasTarget }`.
 
@@ -39,7 +39,8 @@
 - `AiBrainTrait` → `AiBrain { ActiveAction, HasActiveAction, Inertia 0.1, BestAction, BestScore }` и `AiContext`.
 - `AiContext` — «доска» входов для соображений: `HasTarget`, `TargetVisible`, `DistanceToTarget`, `PerceptionRange`, `TimeSinceSeen`, `MemoryDuration`, `HealthRatio`.
 - Каждое действие — **отдельная сущность**: `AiAction { Owner, Weight, Considerations, Score }` плюс компонент конкретного действия. Его создаёт трейт-наследник `AiActionTrait`.
-- Соображения (`IConsideration`, `[SerializeReference]`, настраиваются в инспекторе): `ConstantConsideration`, `HasTargetConsideration`, `TargetVisibleConsideration`, `DistanceToTargetConsideration` (кривая), `TimeSinceSeenConsideration` (кривая), `HealthConsideration` (кривая).
+- Соображения (`IConsideration`, `[SerializeReference]`, настраиваются в инспекторе): `ConstantConsideration`, `HasTargetConsideration`, `TargetVisibleConsideration`, `DistanceToTargetConsideration` (кривая по дистанции, нормированной на дальность обзора), `DistanceInMetersConsideration` (кривая по абсолютной дистанции в метрах), `TimeSinceSeenConsideration` (кривая), `HealthConsideration` (кривая).
+- Вес действия по умолчанию задаёт наследник через `DefaultWeight` (у Attack — 1.2).
 - `Score = Weight × Π clamp01(consideration)`.
 
 ### Системы
@@ -47,15 +48,21 @@
 1. `AiContextSystem` — заполняет `AiContext` из восприятия и здоровья.
 2. `AiScoringSystem` — считает `Score` всех действий. У мёртвого владельца — 0.
 3. `AiSelectionSystem` — максимум по владельцу. Активное действие получает бонус `Inertia`. При смене действия: `AiActive` / `AiActivated` переходят к новому действию, `NavDestination` владельца снимается.
-4. Исполнители (фильтр `AiActive`): `WanderExecutorSystem`, `ChaseExecutorSystem`.
-5. `ComponentCleanupSystem<AiActivated>`.
-6. `AiActionOwnerDestroySystem` (cleanup) — удаляет действия вместе с владельцем.
+4. `AiAimSystem` — `AimRay` ИИ: из глаз (`EyeHeight`) на видимую цель (`TargetHeight`), иначе по `FacingDirection`.
+5. Исполнители (фильтр `AiActive`): `WanderExecutorSystem`, `ChaseExecutorSystem`, `AttackExecutorSystem`.
+6. `ComponentCleanupSystem<AiActivated>`.
+7. `AiActionOwnerDestroySystem` (cleanup) — удаляет действия вместе с владельцем.
 
 ### Действия
 
 **Wander** (`WanderTrait`): радиус 5 от точки спавна (`Home`), пауза 1–3 с, максимум 8 с на дорогу, остановка 0.3. Соображения по умолчанию: `Constant(0.2)` — базовое поведение.
 
 **Chase** (`ChaseTrait`): остановка 1.2 м у видимой цели, 0.5 м у последней известной позиции. Если цель стоит рядом — разворачивает `FacingDirection` к ней. Соображения по умолчанию: `HasTarget × TimeSinceSeen` (кривая 1→0). Когда цель пропадает из виду, оценка затухает: враг идёт к последней известной позиции и через ~4.5 с уступает Wander. Отдельное состояние «поиск» не нужно.
+
+**Attack** (`AttackTrait`, вес 1.2): соображения по умолчанию — `TargetVisible × DistanceInMeters` (кривая 1 до 1.5 м, спад до 0 к 1.8 м). В радиусе удара атака перебивает Chase (1.0). Вместе с бонусом инерции это даёт гистерезис на границе: вход примерно на 1.52 м, выход на 1.58 м.
+- Исполнитель останавливает агента (снимает `NavDestination`), поворачивает `FacingDirection` к цели и ставит `AttackRequest`, когда оружие в покое и нет `ActionBlockers`.
+- Пауза между ударами: при входе в действие — `FirstAttackDelay` (0.25 с), дальше случайная 0.2–0.6 с. **Таймер идёт только пока оружие в покое**, поэтому пауза добавляется к циклу замах + восстановление, а не перекрывается им.
+- Попадает ли удар, решает обычный `MeleeHitSystem` по `AimRay` в момент `HitTime`: если игрок отошёл или дашнул во время замаха, удар промахивается или отфильтровывается неуязвимостью.
 
 ### Как добавить действие
 
@@ -66,4 +73,4 @@
 
 ## Конфиг тестового врага
 
-`TestEnemyConfig`: `HealthTrait` 30, `MovementTrait` 3.5 (медленнее игрока — 5), `PerceptionTrait`, `NavAgentTrait`, `AiBrainTrait`, `WanderTrait`, `ChaseTrait`, `DestroyOnDeathTrait`.
+`TestEnemyConfig`: `HealthTrait` 30, `MovementTrait` 3.5 (медленнее игрока — 5), `PerceptionTrait`, `NavAgentTrait`, `AiBrainTrait`, `WanderTrait`, `ChaseTrait`, `AttackTrait`, `DestroyOnDeathTrait`, `FactionTrait` (`Monsters`), `WeaponHolderTrait` (`TestEnemyWeapon`).

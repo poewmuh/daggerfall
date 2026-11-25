@@ -19,6 +19,7 @@ MonoBehaviour:
   - rid: 1003
   - rid: 1004
   - rid: 1005
+  - rid: 6860114204804513889
   references:
     version: 2
     RefIds:
@@ -40,6 +41,7 @@ MonoBehaviour:
         _duration: 0.2
         _cooldown: 1
         _fallbackDirection: 0
+        _invulnerable: 1
     - rid: 1004
       type: {class: WeaponHolderTrait, ns: Game.Gameplay.Combat.Traits, asm: Assembly-CSharp}
       data:
@@ -48,3 +50,7 @@ MonoBehaviour:
       type: {class: HealthTrait, ns: Game.Gameplay.Damage, asm: Assembly-CSharp}
       data:
         _maxHealth: 100
+    - rid: 6860114204804513889
+      type: {class: FactionTrait, ns: Game.Gameplay.Factions, asm: Assembly-CSharp}
+      data:
+        _faction: {fileID: 11400000, guid: 19660d4e3d7d19e45b7692458c55a936, type: 2}

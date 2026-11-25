@@ -39,14 +39,14 @@
 | 100 | View | | CreateView, ViewToPosition | Billboard | DestroyView |
 | 200 | Input | | инициализаторы-подписчики на `InputEvents` | | |
 | 210 | Perception | | Perception | | |
-| 220 | Ai | | Context, Scoring, Selection, Wander/Chase executors, cleanup `AiActivated` | | AiActionOwnerDestroy |
+| 220 | Ai | | Context, Scoring, Selection, Aim, Wander/Chase/Attack executors, cleanup `AiActivated` | | AiActionOwnerDestroy |
 | 230 | Navigation | | NavPath, NavFollow, NavIdle | | |
 | 300 | VelocityReset | ResetVelocity | | | |
 | 400 | Dash | Cooldown, Start, Velocity, End, cleanup `DashRequest` | | | |
 | 500 | Movement | MovementAvailability, MoveDirectionToVelocity | CameraRelativeInput, CameraFacing, FaceMoveDirection | | |
 | 600 | VelocityApply | VelocityToRigidbody | | | |
 | 700 | Combat | | CameraAim, AttackInterrupt, Recovery, Swing, MeleeHit, Charge, Start, WeaponPresentation, cleanup `AttackHit`/`AttackRequest` | | WeaponOwnerDestroy |
-| 800 | Damage | | Immunity, Apply, Death, DestroyOnDeath, PlayerDeathNotify | | DamageEventCleanup, cleanup `Died` |
+| 800 | Damage | | Immunity, FactionFilter, Apply, Death, DestroyOnDeath, PlayerDeathNotify | | DamageEventCleanup, cleanup `Died` |
 | 10000 | Destroy | | | | DestroyEntities |
 
 Ключевые инварианты:
@@ -62,6 +62,7 @@
 ├─ Position, View, [AssetPath]
 ├─ Movement:   MoveSpeed, Velocity, MoveDirection, FacingDirection, MovementBlockers, RigidbodyComponent (bind)
 ├─ Control:    PlayerControlled + InputMoveDirection  |  AiBrain + AiContext
+├─ Faction:    Faction (FactionDefinition)
 ├─ Dash:       DashParameters, [Dashing], [DashCooldown], [DashRequest]
 ├─ Combat:     EquippedWeapon → (оружие), AttackIntent, AimRay, ActionBlockers, [AttackRequest]
 ├─ Damage:     Health, DamageImmunity, [Dead], [Died], [DestroyOnDeath]
@@ -75,7 +76,7 @@
 
 Действие ИИ (отдельная сущность на каждое действие агента)
 ├─ AiAction { Owner, Weight, Considerations, Score }
-├─ WanderAction | ChaseAction | ...
+├─ WanderAction | ChaseAction | AttackAction | ...
 └─ [AiActive], одноразовый [AiActivated]
 
 DamageEvent (сущность-событие, живёт один кадр)
@@ -101,7 +102,7 @@ DamageEvent (сущность-событие, живёт один кадр)
 
 ```
 Assets/_Project/
-  Configs/Gameplay/        AgentConfig игрока и врагов, Weapons/ (WeaponConfig, WeaponPresentation)
+  Configs/Gameplay/        AgentConfig игрока и врагов, Weapons/ (WeaponConfig, WeaponPresentation), Factions/
   Configs/System/          ScenesConfig
   Prefabs/Gameplay/Actors/ PlayerAvatar (Rigidbody, капсула, CinemachineCamera на оси капсулы)
   Prefabs/GUI/Overlays/    оверлеи (Addressables-ключ = имя OverlayType)
